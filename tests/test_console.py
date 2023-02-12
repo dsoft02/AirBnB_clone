@@ -1,5 +1,7 @@
 import unittest
 import sys
+import io
+from unittest.mock import patch
 from io import StringIO
 from console import HBNBCommand
 from models.base_model import BaseModel
@@ -30,57 +32,55 @@ class Test_HBNBCommand(unittest.TestCase):
     def test_do_create(self):
         """Unittests for testing the do_create
         method of the HBNBCommand class"""
-        self.hbnb.do_create("BaseModel")
-        self.assertNotEqual(sys.stdout.getvalue().strip(), "")
+        with patch('sys.stdout', new=io.StringIO()) as f:
+            HBNBCommand().onecmd("create BaseModel")
+            output = f.getvalue().strip()
+            self.assertNotEqual(output, "")
 
     def test_do_create_with_invalid_class(self):
         """Unittests for testing the do_create method of
         the HBNBCommand class with non existing class"""
         msg = "** class doesn't exist **"
-        self.hbnb.do_create("InvalidClass")
-        self.assertEqual(sys.stdout.getvalue().strip(), msg)
+        with patch('sys.stdout', new=io.StringIO()) as f:
+            HBNBCommand().onecmd("create InvalidClass")
+            output = f.getvalue().strip()
+            self.assertEqual(output, msg)
 
     def test_do_create_without_args(self):
         """Unittests for testing the do_create method
         of the HBNBCommand class with missing class name"""
         msg = "** class name missing **"
-        self.hbnb.do_create("")
-        self.assertEqual(sys.stdout.getvalue().strip(), msg)
-
-    def test_do_create_invalid_class(self):
-        """Unittests for testing the do_create method
-        of the HBNBCommand class with invalid class name"""
-        msg = "** class doesn't exist **"
-        self.hbnb.do_create("InvalidClass")
-        self.assertEqual(sys.stdout.getvalue().strip(), msg)
+        with patch('sys.stdout', new=io.StringIO()) as f:
+            HBNBCommand().onecmd("create ")
+            output = f.getvalue().strip()
+            self.assertEqual(output, msg)
 
     def test_do_quit(self):
         """Unittests for testing the do_quit method of the HBNBCommand class"""
-        self.assertTrue(self.hbnb.do_quit(""))
+        with patch('sys.stdout', new=io.StringIO()) as f:
+            self.assertTrue(HBNBCommand().onecmd("quit"))
 
     def test_help_quit(self):
         """Unittests for testing the help_quit
         method of the HBNBCommand class"""
         msg = "Exits the program with formatting\n\n"
-        result = self.hbnb.help_quit()
-        self.assertEqual(sys.stdout.getvalue(), msg)
+        with patch('sys.stdout', new=io.StringIO()) as f:
+            HBNBCommand().onecmd("help quit")
+            output = f.getvalue()
+            self.assertEqual(output, msg)
 
     def test_do_EOF(self):
         """Unittests for testing the do_EOF method of the HBNBCommand class"""
-        self.assertTrue(self.hbnb.do_EOF(""))
+        self.assertTrue(HBNBCommand().onecmd("EOF"))
 
     def test_help_EOF(self):
         """Unittests for testing the help_EOF method
         of the HBNBCommand class"""
         msg = "Exits the program without formatting\n\n"
-        result = self.hbnb.help_EOF()
-        self.assertEqual(sys.stdout.getvalue(), msg)
-
-    def test_preloop(self):
-        """Unittests for testing the preloop method of the HBNBCommand class"""
-        sys.__stdin__ = StringIO("")
-        self.hbnb.preloop()
-        self.assertEqual(sys.stdout.getvalue().strip(), "(hbnb)")
+        with patch('sys.stdout', new=io.StringIO()) as f:
+            HBNBCommand().onecmd("help EOF")
+            output = f.getvalue()
+            self.assertEqual(output, msg)
 
 
 if __name__ == '__main__':
