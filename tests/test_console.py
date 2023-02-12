@@ -11,7 +11,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-class TestHBNBCommand(unittest.TestCase):
+class Test_HBNBCommand(unittest.TestCase):
     """Unittest Cases for the HBNBCommand class"""
 
     @classmethod
