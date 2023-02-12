@@ -2,6 +2,7 @@ import unittest
 from models.base_model import BaseModel
 from models.amenity import Amenity
 
+
 class TestAmenity_Model(unittest.TestCase):
     def setUp(self):
         self.amenity = Amenity()
@@ -20,6 +21,7 @@ class TestAmenity_Model(unittest.TestCase):
 
     def test_amenity_name_attribute_default(self):
         self.assertEqual(self.amenity.name, "")
+
 
 if __name__ == '__main__':
     unittest.main()

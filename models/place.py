@@ -4,8 +4,8 @@ from models.base_model import BaseModel
 
 
 class Place(BaseModel):
-    """ Representation of a place to stay 
-    
+    """ Representation of a place to stay
+
     Attributes:
         city_id (str): The City id.
         user_id (str): The User id.

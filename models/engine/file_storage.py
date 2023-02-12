@@ -1,14 +1,18 @@
 #!/usr/bin/python3
-"""This module defines a file storage engine class to manage file storage for the AirBnB clone project"""
+"""This module defines a file storage engine class
+to manage file storage for the AirBnB clone project"""
 import json
 
 
 class FileStorage:
-    """class that serializes instances to a JSON file and deserializes JSON file to instances
-    
+    """class that serializes instances to a JSON file
+    and deserializes JSON file to instances
+
     Attributes:
-        __file_path: (string) - path to the JSON file (ex: file.json)
-        __objects: (dictionary) - dictionay that will store all objects by <class name>.id
+        __file_path: (string) - path to the
+        JSON file (ex: file.json)
+        __objects: (dictionary) - dictionay
+        that will store all objects by <class name>.id
     """
     __file_path = 'file.json'
     __objects = {}
@@ -50,6 +54,6 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
